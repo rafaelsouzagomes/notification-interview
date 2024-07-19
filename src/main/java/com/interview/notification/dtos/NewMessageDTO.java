@@ -6,25 +6,30 @@ import javax.validation.constraints.NotNull;
 public class NewMessageDTO {
 
 	@NotNull(message = "Category cannot be null")
-	@NotBlank(message = "Category cannot be empty")
-	private final String category;
+	private final Long idCategory;
+	
+	@NotNull(message = "User Origin cannot be null")
+	private final Long idUser_origin;
 	
 	@NotNull(message = "Message cannot be null")
 	@NotBlank(message = "Category cannot be empty")
 	private final String message;
 	
-	public NewMessageDTO(String category, String message) {
-		this.category = category;
+	public NewMessageDTO(Long idCategory, String message , Long idUser) {
+		this.idCategory = idCategory;
 		this.message = message;
+		this.idUser_origin = idUser;
 	}
 	
-	public String getCategory() {
-		return category;
+	public Long getIdCategory() {
+		return idCategory;
 	}
 	
 	public String getMessage() {
 		return message;
 	}
 	
-	
+	public Long getIdUser_origin() {
+		return idUser_origin;
+	}
 }

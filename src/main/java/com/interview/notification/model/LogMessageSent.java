@@ -12,12 +12,15 @@ public class LogMessageSent {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idMessage;
+	private Long idLogMessageSent;
 	
 	private String message;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	private UserCustomer user;
+	private UserCustomer user_origin;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private UserCustomer user_destination;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Category category;
@@ -25,14 +28,13 @@ public class LogMessageSent {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private ChannelNotification channel;
 
-	public Long getIdMessage() {
-		return idMessage;
+	public void setIdLogMessageSent(Long idLogMessageSent) {
+		this.idLogMessageSent = idLogMessageSent;
 	}
-
-	public void setIdMessage(Long idMessage) {
-		this.idMessage = idMessage;
+	
+	public Long getIdLogMessageSent() {
+		return idLogMessageSent;
 	}
-
 	public String getMessage() {
 		return message;
 	}
@@ -41,14 +43,22 @@ public class LogMessageSent {
 		this.message = message;
 	}
 
-	public UserCustomer getUser() {
-		return user;
+	public void setUser_destination(UserCustomer user_destination) {
+		this.user_destination = user_destination;
 	}
-
-	public void setUser(UserCustomer user) {
-		this.user = user;
+	
+	public UserCustomer getUser_destination() {
+		return user_destination;
 	}
-
+	
+	public void setUser_origin(UserCustomer user_origin) {
+		this.user_origin = user_origin;
+	}
+	
+	public UserCustomer getUser_origin() {
+		return user_origin;
+	}
+	
 	public Category getCategory() {
 		return category;
 	}

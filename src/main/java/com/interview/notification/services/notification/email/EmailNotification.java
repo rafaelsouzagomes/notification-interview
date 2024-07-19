@@ -12,7 +12,7 @@ import com.interview.notification.model.ChannelNotification;
 import com.interview.notification.model.LogMessageSent;
 import com.interview.notification.model.UserCustomer;
 import com.interview.notification.repositories.ChannelNotificationRepository;
-import com.interview.notification.repositories.LogMessageRepository;
+import com.interview.notification.repositories.LogMessageSentRepository;
 import com.interview.notification.repositories.UserRepository;
 import com.interview.notification.services.notification.NotificationMessageEvent;
 
@@ -20,7 +20,7 @@ import com.interview.notification.services.notification.NotificationMessageEvent
 public class EmailNotification implements ApplicationListener<NotificationMessageEvent> {
 
 	private UserRepository userRepository;
-	private LogMessageRepository logMessageRepository;
+	private LogMessageSentRepository logMessageSentRepository;
 	private ChannelNotificationRepository channelNotificationRepository;
 	
 	@Override
@@ -29,17 +29,19 @@ public class EmailNotification implements ApplicationListener<NotificationMessag
 		System.out.println("Sending Email to " + event.getCategory().getDescription() + ": " + event.getMessage());
 		 
 		 Category category = event.getCategory();
-		 List<UserCustomer> users = userRepository.findBySubscribedCategories(category);
 		 ChannelNotification channel = channelNotificationRepository.findByTypeChannel(TypeChannel.EMAIL);
+		 List<UserCustomer> users = userRepository.findBySubscribedCategoriesAndChannels(category, channel);
 		 String message = event.getMessage();
+		 UserCustomer userOrigin = event.getUserOrigin();
 		      
 		  for(UserCustomer user: users) {
 			  LogMessageSent log = new LogMessageSent();
 			  log.setCategory(category);
 			  log.setMessage(message);
 			  log.setChannel(channel);
-			  log.setUser(user);
-			  logMessageRepository.save(log);
+			  log.setUser_destination(user);
+			  log.setUser_origin(userOrigin);
+			  logMessageSentRepository.save(log);
 		  }
 	}
 	
@@ -49,8 +51,8 @@ public class EmailNotification implements ApplicationListener<NotificationMessag
 	}
 	
 	@Autowired
-	public void setLogMessageRepository(LogMessageRepository logMessageRepository) {
-		this.logMessageRepository = logMessageRepository;
+	public void setLogMessageRepository(LogMessageSentRepository logMessageRepository) {
+		this.logMessageSentRepository = logMessageRepository;
 	}
 	
 	@Autowired

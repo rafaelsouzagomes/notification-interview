@@ -11,7 +11,7 @@ import com.interview.notification.model.ChannelNotification;
 import com.interview.notification.model.LogMessageSent;
 import com.interview.notification.model.UserCustomer;
 import com.interview.notification.repositories.ChannelNotificationRepository;
-import com.interview.notification.repositories.LogMessageRepository;
+import com.interview.notification.repositories.LogMessageSentRepository;
 import com.interview.notification.repositories.UserRepository;
 import com.interview.notification.services.notification.NotificationMessageEvent;
 
@@ -20,26 +20,29 @@ public class PushNotification  implements ApplicationListener<NotificationMessag
 
 	
 	private UserRepository userRepository;
-	private LogMessageRepository logMessageRepository;
+	private LogMessageSentRepository logMessageRepository;
 	private ChannelNotificationRepository channelNotificationRepository;
 	
 	@Override
 	public void onApplicationEvent(NotificationMessageEvent event) {
-		  System.out.println("Sending Push Notification to " + event.getCategory().getDescription() + ": " + event.getMessage());
+		 System.out.println("Sending Push Notification to " + event.getCategory().getDescription() + ": " + event.getMessage());
 		 
-		  Category category = event.getCategory();
-			 List<UserCustomer> users = userRepository.findBySubscribedCategories(category);
-			 ChannelNotification channel = channelNotificationRepository.findByTypeChannel(TypeChannel.PUSH_NOTIFICATION);
-			 String message = event.getMessage();
-			      
-			  for(UserCustomer user: users) {
-				  LogMessageSent log = new LogMessageSent();
-				  log.setCategory(category);
-				  log.setMessage(message);
-				  log.setChannel(channel);
-				  log.setUser(user);
-				  logMessageRepository.save(log);
-			  }
+		 Category category = event.getCategory();
+		 ChannelNotification channel = channelNotificationRepository.findByTypeChannel(TypeChannel.PUSH_NOTIFICATION);
+	
+		 List<UserCustomer> users = userRepository.findBySubscribedCategoriesAndChannels(category, channel);
+		 String message = event.getMessage();
+		 UserCustomer userOrigin = event.getUserOrigin();
+		 
+		  for(UserCustomer user: users) {
+			  LogMessageSent log = new LogMessageSent();
+			  log.setCategory(category);
+			  log.setMessage(message);
+			  log.setChannel(channel);
+			  log.setUser_destination(user);
+			  log.setUser_origin(userOrigin);
+			  logMessageRepository.save(log);
+		  }
 	}
 	
 	@Autowired
@@ -48,7 +51,7 @@ public class PushNotification  implements ApplicationListener<NotificationMessag
 	}
 	
 	@Autowired
-	public void setLogMessageRepository(LogMessageRepository logMessageRepository) {
+	public void setLogMessageRepository(LogMessageSentRepository logMessageRepository) {
 		this.logMessageRepository = logMessageRepository;
 	}
 	

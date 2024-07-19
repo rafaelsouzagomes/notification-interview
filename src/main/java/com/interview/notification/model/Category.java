@@ -21,7 +21,7 @@ public class Category {
 	
     @Enumerated(EnumType.STRING)
 	private TypeCategory typeCategory;
-	
+ 
 	private String description;
 	
 	@ManyToMany(mappedBy = "subscribedCategories")

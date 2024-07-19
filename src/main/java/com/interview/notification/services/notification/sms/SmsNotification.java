@@ -12,7 +12,7 @@ import com.interview.notification.model.ChannelNotification;
 import com.interview.notification.model.LogMessageSent;
 import com.interview.notification.model.UserCustomer;
 import com.interview.notification.repositories.ChannelNotificationRepository;
-import com.interview.notification.repositories.LogMessageRepository;
+import com.interview.notification.repositories.LogMessageSentRepository;
 import com.interview.notification.repositories.UserRepository;
 import com.interview.notification.services.notification.NotificationMessageEvent;
 
@@ -20,7 +20,7 @@ import com.interview.notification.services.notification.NotificationMessageEvent
 public class SmsNotification implements ApplicationListener<NotificationMessageEvent> {
 
 	private UserRepository userRepository;
-	private LogMessageRepository logMessageRepository;
+	private LogMessageSentRepository logMessageRepository;
 	private ChannelNotificationRepository channelNotificationRepository;
 	
 	@Override
@@ -28,18 +28,21 @@ public class SmsNotification implements ApplicationListener<NotificationMessageE
         System.out.println("Sending SMS to " + event.getCategory().getDescription() + ": " + event.getMessage());
         
         Category category = event.getCategory();
-		List<UserCustomer> users = userRepository.findBySubscribedCategories(category);
-		ChannelNotification channel = channelNotificationRepository.findByTypeChannel(TypeChannel.SMS);
-		 String message = event.getMessage();
-		      
-		  for(UserCustomer user: users) {
-			  LogMessageSent log = new LogMessageSent();
-			  log.setCategory(category);
-			  log.setMessage(message);
-			  log.setChannel(channel);
-			  log.setUser(user);
-			  logMessageRepository.save(log);
-		  }
+        ChannelNotification channel = channelNotificationRepository.findByTypeChannel(TypeChannel.SMS);
+		
+        List<UserCustomer> users = userRepository.findBySubscribedCategoriesAndChannels(category, channel);
+		String message = event.getMessage();
+		UserCustomer userOrigin = event.getUserOrigin();
+		
+		for(UserCustomer user: users) {
+		  LogMessageSent log = new LogMessageSent();
+		  log.setCategory(category);
+		  log.setMessage(message);
+		  log.setChannel(channel);
+		  log.setUser_origin(userOrigin);
+		  log.setUser_destination(user);
+		  logMessageRepository.save(log);
+		}
     }
 	
 	@Autowired
@@ -48,7 +51,7 @@ public class SmsNotification implements ApplicationListener<NotificationMessageE
 	}
 	
 	@Autowired
-	public void setLogMessageRepository(LogMessageRepository logMessageRepository) {
+	public void setLogMessageRepository(LogMessageSentRepository logMessageRepository) {
 		this.logMessageRepository = logMessageRepository;
 	}
 	
