@@ -25,7 +25,7 @@ public class PushNotification  implements ApplicationListener<NotificationMessag
 	
 	@Override
 	public void onApplicationEvent(NotificationMessageEvent event) {
-		  System.out.println("Sending Push Notification to " + event.getCategory() + ": " + event.getMessage());
+		  System.out.println("Sending Push Notification to " + event.getCategory().getDescription() + ": " + event.getMessage());
 		 
 		  Category category = event.getCategory();
 			 List<UserCustomer> users = userRepository.findBySubscribedCategories(category);

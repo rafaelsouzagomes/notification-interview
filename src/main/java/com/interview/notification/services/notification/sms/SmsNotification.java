@@ -25,7 +25,7 @@ public class SmsNotification implements ApplicationListener<NotificationMessageE
 	
 	@Override
     public void onApplicationEvent(NotificationMessageEvent event) {
-        System.out.println("Sending SMS to " + event.getCategory() + ": " + event.getMessage());
+        System.out.println("Sending SMS to " + event.getCategory().getDescription() + ": " + event.getMessage());
         
         Category category = event.getCategory();
 		List<UserCustomer> users = userRepository.findBySubscribedCategories(category);

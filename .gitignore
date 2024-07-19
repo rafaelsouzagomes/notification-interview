@@ -31,3 +31,58 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+# Ignorar node_modules em ambos os diretórios raiz e client
+node_modules/
+client/node_modules/
+
+# Ignorar diretórios de build
+dist/
+build/
+
+# Ignorar arquivos de log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignorar dependências de pacotes locais
+.pnpm-debug.log*
+
+# Ignorar arquivos de lock do sistema de pacotes
+package-lock.json
+yarn.lock
+.pnpm-lock.yaml
+
+# Ignorar diretórios específicos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Ignorar diretórios de ambiente de desenvolvimento
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Ignorar arquivos de backup
+*.bak
+
+# Ignorar pastas de configuração de IDEs
+.project
+.classpath
+
+# Ignorar binários do Maven
+target/
+
+# Ignorar arquivos de build do cliente
+client/build/
+client/dist/
+
+# Ignorar arquivos temporários
+*.tmp
+*.temp
+
+# Ignorar arquivos de cache
+*.cache
