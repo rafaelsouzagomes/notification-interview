@@ -6,39 +6,17 @@ import { newMessage } from '../models/message-new';
 const BASE_URL = 'http://localhost:8080';
 
 const api = axios.create({
-  baseURL: BASE_URL+ '/messages',
+  baseURL: BASE_URL + '/messages',
 });
 
-export interface onGetAllMessagesProps{
-  setMessages: (messages: LogMessageSent[] | []) => void,
-}
-export function findAllLogMessageSent({setMessages}:onGetAllMessagesProps){
-  api.get('/all').then(function(response){
-    setMessages(response.data);
-    console.log(response.data);
-  }).catch(function (error) {
-    console.log(error);
-  });
-}
+export const findAllLogMessageSent = () => {
+  return api.get<LogMessageSent[]>('/all');
+};
 
-export interface onGetAllCategoriesProps{
-  setCategories: (categories: Category[] | []) => void,
-}
-export function findAllAllCategories({setCategories}:onGetAllCategoriesProps){
-  api.get('category/all').then(function(response){
-    setCategories(response.data);
-  }).catch(function (error) {
-    console.log(error);
-  });
-}
+export const findAllAllCategories = () => {
+  return api.get<Category[]>('category/all');
+};
 
-export function saveNewMessage( newMessage: newMessage){
-    api.post('/add', {
-      message: newMessage.message,
-      idCategory: newMessage.idCategory
-    })
-  .catch(function (error) {
-    console.log(error);
-  });
-}
-
+export const saveNewMessage = (newMessage: newMessage) => {
+  return api.post('/add', newMessage);
+};

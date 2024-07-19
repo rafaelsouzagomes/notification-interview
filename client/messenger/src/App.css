@@ -13,7 +13,7 @@
   -webkit-text-size-adjust: 100%;
 }
 
-.sensor-container{
+.container{
   display: flex;
   flex-direction: center;
   align-items: center;
@@ -21,25 +21,29 @@
   gap: 1rem;
 }
 
-.sensor-h2{
+.title{
   color:rgba(0, 0, 0, 0.6);
 }
-
-.sensor-botao{
-  background-color:#D32F2F;
+.btns{
+  display: flex;
+  gap: 1rem;
+}
+.btn-main{
+  /* background-color:#D32F2F; */
+  background-color:black;
   color: white;
   border-radius: 18px;
   width: 100px;
 }
 
-.sensor-botao:hover {
+.btn-main:hover {
   opacity: 0.8;
 }
 
-.novoSensorModal-h2{
-  color:rgba(0, 0, 0, 0.6);
+.title-modal{
   padding-bottom: 0.5rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
 }
 
 
@@ -85,15 +89,3 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
