@@ -1,11 +1,15 @@
 package com.interview.notification.model;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class LogMessageSent {
@@ -27,6 +31,17 @@ public class LogMessageSent {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private ChannelNotification channel;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date date;
+	
+	public void setDate(Date date) {
+		this.date = date;
+	}
+	
+	public Date getDate() {
+		return date;
+	}
 
 	public void setIdLogMessageSent(Long idLogMessageSent) {
 		this.idLogMessageSent = idLogMessageSent;

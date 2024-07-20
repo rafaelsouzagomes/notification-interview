@@ -1,6 +1,7 @@
 package com.interview.notification.services.notification.producers.beans;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import org.springframework.context.ApplicationEvent;
 
@@ -13,6 +14,7 @@ public class NotificationMessageEvent extends ApplicationEvent implements Serial
 	private String message;
     private Long idCategory;
     private Long idUserOrigin;
+    private Date date;
 
     public NotificationMessageEvent(@JsonProperty("source") Object source, 
     								@JsonProperty("message") String message, 
@@ -22,6 +24,7 @@ public class NotificationMessageEvent extends ApplicationEvent implements Serial
         this.message = message;
         this.idCategory = idCategory;
         this.idUserOrigin = idUserOrigin;
+        this.date = new Date();
     }
     public String getMessage() {
         return message;
@@ -33,6 +36,10 @@ public class NotificationMessageEvent extends ApplicationEvent implements Serial
     
     public Long getIdUserOrigin() {
 		return idUserOrigin;
+	}
+    
+    public Date getDate() {
+		return date;
 	}
 
     

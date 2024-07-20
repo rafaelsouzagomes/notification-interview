@@ -15,6 +15,7 @@ import com.interview.notification.model.UserCustomer;
 import com.interview.notification.repositories.CategoryRepository;
 import com.interview.notification.repositories.ChannelNotificationRepository;
 import com.interview.notification.repositories.UserRepository;
+import com.interview.notification.services.ArchivedMessageService;
 import com.interview.notification.services.notification.producers.beans.NotificationMessageBatchEvent;
 import com.interview.notification.services.notification.producers.beans.NotificationMessageEvent;
 
@@ -27,6 +28,8 @@ public class NotificationProducer {
 	private RabbitTemplate rabbitTemplate;
 	private CategoryRepository categoryRepository;
 	
+	private ArchivedMessageService archivedMessageService;
+	
 	private final int BATCH_SIZE = 100;     
 	
 	public void sendNotificationToQueue(NotificationMessageEvent event) {
@@ -36,11 +39,17 @@ public class NotificationProducer {
         ChannelNotification channel = channelNotificationRepository.findByTypeChannel(typeChannel);
         Category category = categoryRepository.findById(event.getIdCategory()).get();
         
-        List<UserCustomer> users = userRepository.findBySubscribedCategoriesAndChannels(category,channel);
+        List<UserCustomer> usersSubscribed = userRepository.findBySubscribedCategoriesAndChannels(category,channel);
         String rountingKeyProducer = channelProducer.getRoutingKeyProducer();
         
-        for (int i = 0; i < users.size(); i += BATCH_SIZE) {
-            List<UserCustomer> batch = users.subList(i, Math.min(i + BATCH_SIZE, users.size()));
+        if(usersSubscribed.isEmpty()) {
+        	archivedMessageService.archive(channel, category, event);
+        	return;
+        }
+        
+        
+        for (int i = 0; i < usersSubscribed.size(); i += BATCH_SIZE) {
+            List<UserCustomer> batch = usersSubscribed.subList(i, Math.min(i + BATCH_SIZE, usersSubscribed.size()));
             
             List<Long> idUsersBath = batch.stream().map(UserCustomer::getIdUser).collect(Collectors.toList());
             		
@@ -67,5 +76,9 @@ public class NotificationProducer {
 	@Autowired
 	public void setRabbitTemplate(RabbitTemplate rabbitTemplate) {
 		this.rabbitTemplate = rabbitTemplate;
+	}
+	@Autowired
+	public void setArchivedMessageService(ArchivedMessageService archivedMessageService) {
+		this.archivedMessageService = archivedMessageService;
 	}
 }

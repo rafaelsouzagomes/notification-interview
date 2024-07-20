@@ -1,5 +1,6 @@
 package com.interview.notification.services.notification.consumers;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -40,6 +41,7 @@ public class NotificationConsumer {
 	            
 	            Category category = categoryRepository.findById(event.getIdCategory()).get();            
 	            String message = event.getMessage();
+	            Date date = event.getDate();
 	            UserCustomer userOrigin = userRepository.findById(event.getIdUserOrigin()).get();
 	            
 	            ICategoryProcess categoryProcess = ICategoryProcessFactory.getCategoryBy(category.getTypeCategory().name());            
@@ -55,6 +57,7 @@ public class NotificationConsumer {
 	                log.setChannel(channel);
 	                log.setUser_origin(userOrigin);
 	                log.setUser_destination(user);
+	                log.setDate(date);
 	                LogMessageSent logManaged = logMessageRepository.save(log);
 	                
 	                service_API.processItem(batchEvent, user, logManaged);

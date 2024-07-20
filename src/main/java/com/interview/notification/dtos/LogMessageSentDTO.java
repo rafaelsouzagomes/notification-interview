@@ -1,5 +1,7 @@
 package com.interview.notification.dtos;
 
+import java.util.Date;
+
 public class LogMessageSentDTO {
 
 	private Long idLogMessageSent;
@@ -13,7 +15,15 @@ public class LogMessageSentDTO {
 	private String category_name;
 	
 	private String channel_name;
-
+	
+	private Date date;
+	
+	public void setDate(Date date) {
+		this.date = date;
+	}
+	public Date getDate() {
+		return date;
+	}
 	public Long getIdLogMessageSent() {
 		return idLogMessageSent;
 	}

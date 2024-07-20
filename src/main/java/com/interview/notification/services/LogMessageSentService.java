@@ -16,7 +16,8 @@ public class LogMessageSentService {
 	private LogMessageSentRepository logMessageSentRepository;
 	
 	public List<LogMessageSentDTO> findAllLogMessageSent() {
-		List<LogMessageSent> logMessageSentList = logMessageSentRepository.findAll();
+//		List<LogMessageSent> logMessageSentList = logMessageSentRepository.findAll();
+		List<LogMessageSent> logMessageSentList = logMessageSentRepository.findAllOrderedByIdDesc();
 		return LogMessageSentMapper.INSTANCE.toDTOList(logMessageSentList);
 	}
 	

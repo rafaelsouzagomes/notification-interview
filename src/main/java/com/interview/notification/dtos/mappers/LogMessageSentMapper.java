@@ -19,13 +19,15 @@ public interface LogMessageSentMapper {
     @Mapping(source = "user_destination.name", target = "username_destination")
     @Mapping(source = "category.description", target = "category_name")
     @Mapping(source = "channel.description", target = "channel_name")
+    @Mapping(source = "date", target = "date")
     LogMessageSentDTO toDTO(LogMessageSent logMessageSent);
 
     @Mapping(source = "idLogMessageSent", target = "idLogMessageSent")
     @Mapping(source = "username_origin", target = "user_origin.name")  
     @Mapping(source = "username_destination", target = "user_destination.name")  
     @Mapping(source = "category_name", target = "category.description")  
-    @Mapping(source = "channel_name", target = "channel.description")  
+    @Mapping(source = "channel_name", target = "channel.description")
+    @Mapping(source = "date", target = "date")
     LogMessageSent toEntity(LogMessageSentDTO logMessageSentDTO);
     
     @Mapping(source = "idLogMessageSent", target = "idLogMessageSent")
