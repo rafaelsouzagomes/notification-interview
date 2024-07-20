@@ -12,6 +12,8 @@ public class NotificationMessageBatchEvent implements Serializable {
 	private NotificationMessageEvent originalEvent;
     private List<Long> idUsersBatch;
     private Long idChannel;
+    
+    private String error;
 
     public NotificationMessageBatchEvent( @JsonProperty("originalEvent") NotificationMessageEvent originalEvent, 
     		 							  @JsonProperty("idUsersBatch") List<Long> idUsersBatch, 
@@ -31,5 +33,13 @@ public class NotificationMessageBatchEvent implements Serializable {
 
     public List<Long> getIdUsersBatch() {
 		return idUsersBatch;
+	}
+    
+    public void setError(String error) {
+		this.error = error;
+	}
+    
+    public String getError() {
+		return error;
 	}
 }

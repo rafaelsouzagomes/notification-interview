@@ -9,6 +9,6 @@ public class ValidatorMessage {
 
 	public void validateMessage(String message) {
 		if(Objects.isNull(message) || message.isEmpty())
-			throw new ValidationException("The message cannot be empty.");
+			throw new ValidationNotificationGlobalException("The message cannot be empty.");
 	}
 }

@@ -1,5 +1,8 @@
 package com.interview.notification.config;
 
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -37,6 +40,20 @@ public class RabbitMQConfig {
         return new Jackson2JsonMessageConverter();
     }
     
+    @Bean
+    public Queue deadLetterQueue() {
+        return new Queue("deadLetterQueue");
+    }
+
+    @Bean
+    public DirectExchange dlxExchange() {
+        return new DirectExchange("dlxExchange");
+    }
+    
+    @Bean
+    public Binding dlqBinding() {
+        return BindingBuilder.bind(deadLetterQueue()).to(dlxExchange()).with("#");
+    }
     
     
 }

@@ -2,6 +2,7 @@ package com.interview.notification.services.notification.consumers;
 
 import java.util.List;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -22,9 +23,11 @@ import com.interview.notification.services.notification.producers.beans.Notifica
 @Service
 public class NotificationConsumer {
 
-	private LogMessageSentRepository logMessageRepository;
-	private ICategoryProcessFactory ICategoryProcessFactory;
 	private APIService service_API;
+	private ICategoryProcessFactory ICategoryProcessFactory;
+	private RabbitTemplate rabbitTemplate;
+
+	private LogMessageSentRepository logMessageRepository;
 	private ChannelNotificationRepository channelRepository;
 	private UserRepository userRepository;
 	private CategoryRepository categoryRepository;
@@ -62,11 +65,16 @@ public class NotificationConsumer {
 	            categoryProcess.onPostProcess();
 	            
 	        } catch (Exception e) {
-	            e.printStackTrace();
+	        	  System.err.println("Error processing message: " + e.getMessage());
+	        	  batchEvent.setError(e.getMessage());
+	              rabbitTemplate.convertAndSend("dlxExchange", "#", batchEvent);
 	        }
 	    }
 	
-	
+	@Autowired
+	public void setRabbitTemplate(RabbitTemplate rabbitTemplate) {
+		this.rabbitTemplate = rabbitTemplate;
+	}
 	@Autowired
 	public void setChannelRepository(ChannelNotificationRepository channelRepository) {
 		this.channelRepository = channelRepository;

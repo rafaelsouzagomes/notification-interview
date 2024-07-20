@@ -17,7 +17,7 @@ public class ValidatorCategory {
 	public void validateEntity(Long idCategory) {
 		Optional<Category> categoryOpt = categoryRepository.findById(idCategory);
 		if(categoryOpt.isEmpty())
-			throw new ValidationException("This category doesn't extist.");
+			throw new ValidationNotificationGlobalException("This category doesn't extist.");
 	}
 	
 	@Autowired
