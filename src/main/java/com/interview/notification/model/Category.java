@@ -14,7 +14,6 @@ import com.interview.notification.enums.TypeCategory;
 
 @Entity
 public class Category {
-
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idCategory;

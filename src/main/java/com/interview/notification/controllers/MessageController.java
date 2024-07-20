@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.interview.notification.dtos.CategoryDTO;
 import com.interview.notification.dtos.LogMessageSentDTO;
 import com.interview.notification.dtos.NewMessageDTO;
+import com.interview.notification.services.CategoryService;
+import com.interview.notification.services.LogMessageSentService;
 import com.interview.notification.services.MessageService;
 
 @CrossOrigin
@@ -25,6 +27,8 @@ import com.interview.notification.services.MessageService;
 public class MessageController {
 	
 	private MessageService messageService;
+	private CategoryService categoryService;
+	private LogMessageSentService logMessageSentService;
 	
 	@CrossOrigin
 	@PostMapping("/add")
@@ -35,19 +39,28 @@ public class MessageController {
 	@CrossOrigin
 	@GetMapping("/all")
 	public List<LogMessageSentDTO> findAllMessagesSentLog()  {
-		return messageService.findAllLogMessageSent();
+		return logMessageSentService.findAllLogMessageSent();
 	}
 	
 	@CrossOrigin
 	@GetMapping("/category/all")
 	public List<CategoryDTO> findAllCategories()  {
-		return messageService.findAllCategories();
+		return categoryService.findAllCategories();
 	}
 	
 	
 	@Autowired
 	public void setMessageService(MessageService messageService) {
 		this.messageService = messageService;
+	}
+	@Autowired
+	public void setCategoryService(CategoryService categoryService) {
+		this.categoryService = categoryService;
+	}
+	
+	@Autowired
+	public void setLogMessageSentService(LogMessageSentService logMessageSentService) {
+		this.logMessageSentService = logMessageSentService;
 	}
 	
 }

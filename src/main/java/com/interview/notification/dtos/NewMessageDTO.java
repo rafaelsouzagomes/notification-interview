@@ -12,7 +12,6 @@ public class NewMessageDTO {
 	private final Long idUser_origin;
 	
 	@NotNull(message = "Message cannot be null")
-	@NotBlank(message = "Category cannot be empty")
 	private final String message;
 	
 	public NewMessageDTO(Long idCategory, String message , Long idUser) {

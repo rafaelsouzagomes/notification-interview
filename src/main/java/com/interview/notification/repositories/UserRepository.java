@@ -12,4 +12,6 @@ public interface UserRepository extends JpaRepository<UserCustomer, Long>  {
 
 	List<UserCustomer> findBySubscribedCategoriesAndChannels(Category category, ChannelNotification channel);
 
+	List<UserCustomer> findByIdUserIn(List<Long> idUsersBatch);
+
 }
