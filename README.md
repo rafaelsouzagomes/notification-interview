@@ -35,8 +35,8 @@ This is a Spring Boot application designed to handle notifications. The applicat
     spring.flyway.locations=classpath:db/migration
     spring.jpa.hibernate.ddl-auto=none
     ```
- 
- **Build and run the Docker containers**:
+ ### Running with DOCKER
+ 1. **Build and run the Docker containers**:
 
     ```sh
     docker-compose up --build
