@@ -38,7 +38,7 @@ This is a Spring Boot application designed to handle notifications. The applicat
  
  **Build and run the Docker containers**:
 
-     ```sh
+    ```sh
     docker-compose up --build
     ```
 
