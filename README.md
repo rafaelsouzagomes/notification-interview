@@ -21,3 +21,24 @@ This is a Spring Boot application designed to handle notifications. The applicat
     mvn spring-boot:run
     ```
 
+The frontend application is a React project using Vite, located in the `client/messenger` directory.
+
+1. **Navigate to the frontend directory**:
+
+    ```sh
+    cd client/messenger
+    ```
+
+2. **Install the dependencies**:
+
+    ```sh
+    npm install
+    ```
+
+3. **Run the frontend application**:
+
+    ```sh
+    vite
+    ```
+
+
