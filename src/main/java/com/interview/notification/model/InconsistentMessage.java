@@ -5,6 +5,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -15,9 +16,11 @@ public class InconsistentMessage {
 	private Long idInconsistentMessage;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "channel_id")  
 	private ChannelNotification channel;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "category_id")  
 	private Category category;
 	
 	private String error;

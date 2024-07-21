@@ -23,13 +23,13 @@ const MessengerLog: React.FC = () => {
         <button className="btn-main" onClick={() => setOpen(true)}>New</button>
         <button className="btn-main" onClick={refreshMessages}>Refresh</button>
       </div>
-      <div style={{ height: 400, width: 1000 }}>
+      <div style={{ height: "100vh", width: 1200 }}>
         <DataGrid
           rows={messages}
           columns={columns}
-          pageSize={5}
+          pageSize={20}
           getRowId={(row) => row.idLogMessageSent}
-          rowsPerPageOptions={[5]}
+          rowsPerPageOptions={[20]}
         />
       </div>
       <MessengerLogModal isOpen={open} setOpen={setOpen} />

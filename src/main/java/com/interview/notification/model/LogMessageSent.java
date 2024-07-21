@@ -7,6 +7,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -21,15 +22,19 @@ public class LogMessageSent {
 	private String message;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_origin_id")  
 	private UserCustomer user_origin;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_destination_id")  
 	private UserCustomer user_destination;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "category_id")  
 	private Category category;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "channel_id")  
 	private ChannelNotification channel;
 	
 	@Temporal(TemporalType.TIMESTAMP)

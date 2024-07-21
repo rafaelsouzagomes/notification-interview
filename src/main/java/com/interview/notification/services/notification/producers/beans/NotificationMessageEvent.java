@@ -26,6 +26,7 @@ public class NotificationMessageEvent extends ApplicationEvent implements Serial
         this.idUserOrigin = idUserOrigin;
         this.date = new Date();
     }
+    
     public String getMessage() {
         return message;
     }

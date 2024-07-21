@@ -12,7 +12,7 @@ import javax.persistence.ManyToMany;
 
 import com.interview.notification.enums.TypeCategory;
 
-@Entity
+@Entity(name = "Category_Message")
 public class Category {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

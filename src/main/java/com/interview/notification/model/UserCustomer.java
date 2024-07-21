@@ -13,7 +13,7 @@ import javax.persistence.ManyToMany;
 
 @Entity
 public class UserCustomer {
-//marcar campos obrigatorios
+	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idUser;

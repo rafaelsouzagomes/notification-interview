@@ -1,5 +1,5 @@
 import React, {  useState } from 'react';
-import { Box, Modal, Autocomplete, TextField, Button } from '@mui/material';
+import { Box, Modal, Autocomplete, TextField, Button, Snackbar, Alert} from '@mui/material';
 import { useFetchCategories } from '../../hooks/useFetchCategories';
 import '../../App.css';
 import { saveNewMessage } from '../../services/message-log-sent-service';
@@ -26,6 +26,22 @@ const MessengerLogModal: React.FC<MessageLogNewProps> = ({ isOpen, setOpen }) =>
     id: category.idCategory
   }));
 
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
+
+  const handleSnackbarClose = () => {
+    setOpenSnackbar(false);
+  };
+  
+  const showSnackbar = (message: string, severity: 'success' | 'error') => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setOpenSnackbar(true);
+  };
+  
+
+
   const handleClose = () => {
     setOpen(false);
     cleanFields();
@@ -41,7 +57,7 @@ const MessengerLogModal: React.FC<MessageLogNewProps> = ({ isOpen, setOpen }) =>
     return !message || !idCategory;
   };
 
-  const ID_USER_SENDER_ADMIN =3;
+  const ID_USER_SENDER_ADMIN =1;
   
   const handleSave = async () => {
     if (idCategory && message) {
@@ -52,14 +68,20 @@ const MessengerLogModal: React.FC<MessageLogNewProps> = ({ isOpen, setOpen }) =>
       };
       try {
         await saveNewMessage(newMsg);
+        showSnackbar('Message saved successfully!', 'success');
         handleClose();
-      } catch (error) {
-        console.error(error);
+      } catch (error: any) {
+        if (error.response && error.response.data && error.response.data.message) {
+          showSnackbar(error.response.data.message, 'error');
+        } else {
+          showSnackbar('An unexpected error occurred. Please try again.', 'error');
+        }
       }
     }
   };
 
   return (
+    <>
     <Modal
       open={isOpen}
       onClose={handleClose}
@@ -103,6 +125,20 @@ const MessengerLogModal: React.FC<MessageLogNewProps> = ({ isOpen, setOpen }) =>
         </Button>
       </Box>
     </Modal>
+        
+    <Snackbar
+      open={openSnackbar}
+      autoHideDuration={6000}
+      onClose={handleSnackbarClose}
+    >
+      <Alert onClose={handleSnackbarClose} 
+            severity={snackbarSeverity} 
+            sx={{ width: '100%' }}>
+        {snackbarMessage}
+      </Alert>
+    </Snackbar>
+    
+</>
   );
 };
 

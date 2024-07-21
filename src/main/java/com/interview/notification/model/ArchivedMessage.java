@@ -7,6 +7,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -19,9 +20,11 @@ public class ArchivedMessage {
 	private Long idArchivedMessage;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "channel_id")  
 	private ChannelNotification channel;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "category_id")  
 	private Category category;
 	
 	private String message;
@@ -30,6 +33,7 @@ public class ArchivedMessage {
 	private Date date;
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_origin_id")  
 	private UserCustomer userOrigin;
 	
 	public Long getIdArchivedMessage() {
