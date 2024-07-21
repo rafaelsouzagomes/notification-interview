@@ -1,6 +1,6 @@
 # Notification Application
 
-This is a Spring Boot application designed to handle notifications. The application is containerized using Docker and can be run both in Docker and directly using Maven.
+This is a Full Stack project designed to handle notifications. The backend is developed with Spring Boot, and the frontend is a React. This project utilizes RabbitMQ for queuing, leveraging concurrency, and following good design patterns, OOP principles and unit testing.
 
 ![image](https://github.com/user-attachments/assets/12972bf8-9a0b-4616-9ad5-5f1d4cc85a0c)
 
